@@ -6,11 +6,15 @@ import flask
 
 from octoprint.events import Events
 
-class FanshimPlugin(octoprint.plugin.StartupPlugin,
-                       octoprint.plugin.TemplatePlugin,
-                       octoprint.plugin.SettingsPlugin,
-                       octoprint.plugin.AssetPlugin
-):
+class FanshimPlugin(
+    octoprint.plugin.AssetPlugin,
+    octoprint.plugin.StartupPlugin,
+    octoprint.plugin.TemplatePlugin,
+    octoprint.plugin.SimpleApiPlugin,
+    octoprint.plugin.SettingsPlugin,
+    octoprint.plugin.EventHandlerPlugin,
+    octoprint.plugin.RestartNeedingPlugin
+    ):
     
     ##~~ SettingsPlugin mixin
 
@@ -52,14 +56,13 @@ class FanshimPlugin(octoprint.plugin.StartupPlugin,
         self._logger.info("--------------------------------------------")
         self._logger.info("FanShim started, listening for GET request")
         self._logger.info("ON temp: {}, OFF temp: {}, Delay: {}, Preempt: {}, Brightness: {}, No LED: {}, No button".format(
-			self._settings.get(["on_threshold"]),
-			self._settings.get(["off_threshold"]),
-            self._settings.get(["delay"])
-            self._settings.get(["preempt"])
-            self._settings.get(["brightness"])
-            self._settings.get(["noled"])
-            self._settings.get(["nobutton"])
-		))
+            self._settings.get(["on_threshold"]),
+            self._settings.get(["off_threshold"]),
+            self._settings.get(["delay"]),
+            self._settings.get(["preempt"]),
+            self._settings.get(["brightness"]),
+            self._settings.get(["noled"]),
+            self._settings.get(["nobutton"])))
         self._logger.info("--------------------------------------------")
 
 		# Setting the default state of fanshim
