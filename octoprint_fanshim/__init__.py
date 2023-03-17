@@ -18,7 +18,7 @@ class FanshimPlugin(
     ):
 
     def __init__(self):
-        self.debugMode = False
+        self.debugMode = True
     
     ##~~ SettingsPlugin mixin
 
@@ -70,7 +70,7 @@ class FanshimPlugin(
         self._logger.info("--------------------------------------------")
 
 		# Setting the default state of fanshim
-        self._logger.debug("Let's start RepeatedTimer!")
+        self._logger.info("Let's start RepeatedTimer!")
         interval = 5.0 if self.debugMode else 30.0
         self.start_soc_timer(interval)
 
@@ -80,7 +80,7 @@ class FanshimPlugin(
             interval, self.update_fanshim_status, run_first=True
         )
         self._checkFanShimTimer.start()
-        
+
 
     def update_fanshim_status(self):
         self._logger.info("FanShim status: {}".format(self.fanshim_state))
@@ -128,6 +128,27 @@ class FanshimPlugin(
         if event == Events.CLIENT_OPENED:
             self._plugin_manager.send_plugin_message(self._identifier, dict(isFanShimOn=self.fanshim_state))
             return
+        
+
+    def on_settings_save(self, data):
+        diff = super(FanshimPlugin, self).on_settings_save(data)
+        self._logger.info("FanshimPlugin settings data: " + str(data))
+
+        if "preempt" in data:
+            self.preempt = data["preempt"]
+            if self.preempt:
+                interval = 5.0 if self.debugMode else 30.0
+                self.start_fanshim_timer(interval)
+            else:
+                if self._checkFanShimTimer is not None:
+                    try:
+                        self._checkFanShimTimer.cancel()
+                    except Exception:
+                        pass
+
+        self._plugin_manager.send_plugin_message(self._identifier, dict())
+
+        return diff
 
    
    ##~~ Softwareupdate hook
