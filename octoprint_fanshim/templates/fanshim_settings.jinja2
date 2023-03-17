@@ -13,16 +13,16 @@
 		<div class="controls">
 			<input id="delay-input" type="number" min="1" max="120" class="input-small" data-bind="value: settings.plugins.fanshim.delay">
 		</div>
-        <label class="checkbox">
-				<input type="checkbox" data-bind="checked: settings.plugins.octolight.preempt">
-				{{ _('Preempt') }}
-			</label>
         <label class="control-label">{{ _('LED brightness') }}</label>
 		<div class="controls">
 			<input id="brightness-input" type="number" min="0" max="255" class="input-small" data-bind="value: settings.plugins.fanshim.brightness">
 		</div>
 
 		<div class="controls">
+            <label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.plugins.octolight.preempt">
+				{{ _('Preempt') }}
+			</label>
 			<label class="checkbox">
 				<input type="checkbox" data-bind="checked: settings.plugins.octolight.noled">
 				{{ _('Disable LED') }}

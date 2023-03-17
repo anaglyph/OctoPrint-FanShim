@@ -73,8 +73,9 @@ class FanshimPlugin(
     def fanshim_toggle(self):
         self.fanshim_state = not self.fanshim_state
 
-        self._logger.info("Got toggle request. FanShim state: {}".format(
-			self.fanshim_state
+        self._logger.info("Got toggle request. fanshim_state: {}, on_threshold: {}".format(
+			self.fanshim_state,
+            self._settings.get(["on_threshold"])
 		))
 
         self._plugin_manager.send_plugin_message(self._identifier, dict(isFanShimtOn=self.fanshim_state))
