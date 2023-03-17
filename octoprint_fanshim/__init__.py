@@ -6,9 +6,10 @@ import flask
 
 from octoprint.events import Events
 
-class FanshimPlugin(octoprint.plugin.SettingsPlugin,
-    octoprint.plugin.AssetPlugin,
-    octoprint.plugin.TemplatePlugin
+class FanshimPlugin(octoprint.plugin.StartupPlugin,
+                       octoprint.plugin.TemplatePlugin,
+                       octoprint.plugin.SettingsPlugin,
+                       octoprint.plugin.AssetPlugin
 ):
     
     ##~~ SettingsPlugin mixin
