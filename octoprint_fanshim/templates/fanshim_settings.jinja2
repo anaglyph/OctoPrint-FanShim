@@ -1,0 +1,36 @@
+<form class="form-horizontal">
+	<h3>FanShim settings</h3>
+	<div class="control-group">
+		<label class="control-label">{{ _('ON temperature (°C)') }}</label>
+		<div class="controls">
+			<input id="on_threshold-input" type="number" min="40" max="80" class="input-small" data-bind="value: settings.plugins.fanshim.on_threshold">
+		</div>
+        <label class="control-label">{{ _('OFF temperature (°C)') }}</label>
+		<div class="controls">
+			<input id="off_threshold-input" type="number" min="40" max="80" class="input-small" data-bind="value: settings.plugins.fanshim.off_threshold">
+		</div>
+        <label class="control-label">{{ _('Delay') }}</label>
+		<div class="controls">
+			<input id="delay-input" type="number" min="1" max="120" class="input-small" data-bind="value: settings.plugins.fanshim.delay">
+		</div>
+        <label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.plugins.octolight.preempt">
+				{{ _('Preempt') }}
+			</label>
+        <label class="control-label">{{ _('LED brightness') }}</label>
+		<div class="controls">
+			<input id="brightness-input" type="number" min="0" max="255" class="input-small" data-bind="value: settings.plugins.fanshim.brightness">
+		</div>
+
+		<div class="controls">
+			<label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.plugins.octolight.noled">
+				{{ _('Disable LED') }}
+			</label>
+            <label class="checkbox">
+				<input type="checkbox" data-bind="checked: settings.plugins.octolight.nobutton">
+				{{ _('Disable button') }}
+			</label>
+		</div>
+	</div>
+</form>
