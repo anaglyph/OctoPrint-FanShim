@@ -5,6 +5,7 @@ import octoprint.plugin
 import flask
 
 from octoprint.events import Events
+from octoprint.util import RepeatedTimer
 
 class FanshimPlugin(
     octoprint.plugin.AssetPlugin,
@@ -15,6 +16,9 @@ class FanshimPlugin(
     octoprint.plugin.EventHandlerPlugin,
     octoprint.plugin.RestartNeedingPlugin
     ):
+
+    def __init__(self):
+        self.debugMode = False
     
     ##~~ SettingsPlugin mixin
 
@@ -66,7 +70,20 @@ class FanshimPlugin(
         self._logger.info("--------------------------------------------")
 
 		# Setting the default state of fanshim
+        self._logger.debug("Let's start RepeatedTimer!")
+        interval = 5.0 if self.debugMode else 30.0
+        self.start_soc_timer(interval)
 
+
+    def start_fanshim_timer(self, interval):
+        self._checkFanShimTimer = RepeatedTimer(
+            interval, self.update_fanshim_status, run_first=True
+        )
+        self._checkFanShimTimer.start()
+        
+
+    def update_fanshim_status(self):
+        self._logger.info("FanShim status: {}".format(self.fanshim_state))
         self._plugin_manager.send_plugin_message(self._identifier, dict(isFanShimOn=self.fanshim_state))
                 
 
@@ -140,6 +157,8 @@ class FanshimPlugin(
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
 __plugin_name__ = "Fanshim Plugin"
+__plugin_author__ = "Rus Wetherell"
+__plugin_url__ = "https://github.com/anaglyph/OctoPrint-FanShim"
 
 
 # Set the Python version your plugin is compatible with below. Recommended is Python 3 only for all new plugins.
