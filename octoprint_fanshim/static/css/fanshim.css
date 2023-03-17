@@ -1,3 +1,6 @@
+.on{
+	filter: grayscale(0%);
+}
 .off{
 	filter: grayscale(100%);
 }
